@@ -1,13 +1,13 @@
 <template>
   <div id="app" >
-    <router-view/>
+    <router-view></router-view>
+    <router-view  name="main"></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app'
-
+  name: 'app',
 }
 </script>
 
@@ -16,11 +16,10 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 
-body, div, h1 {
+html,body,div,h1 {
   margin: 0;
   padding: 0;
 }

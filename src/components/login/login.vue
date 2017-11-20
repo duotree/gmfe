@@ -2,6 +2,7 @@
     <div id="login" v-bind:style="{width:width + 'px', height:height + 'px'}">
         <div class="login-content">
             <h1>魂之轨迹GM系统</h1>
+            <router-link to="/gmServer">to main</router-link>
             <form action="">
                 <div class="login-form-content">
                     <input type="text" name ="username" placeholder="输入用户名"/>
@@ -19,7 +20,7 @@
 
 <script>
     export default {
-        name: 'login' ,
+        name: 'login',
         data () {
             return {
                 width  : document.documentElement.clientWidth,
@@ -49,7 +50,7 @@
     #login {
         position: relative;
         background: #eee url(../../assets/loginback.jpg) repeat fixed top;
-        -webkit-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader ( sizingMethod='scale' , src='../../assets/loginback.jpg')";
+        -webkit-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader ( sizingMethod='scale' , src='../../assets/loginback.jpg');
         filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader ( sizingMethod='scale' , src='../../assets/loginback.jpg')";
     }
 
@@ -96,6 +97,8 @@
     }
 
    input {
+       -moz-border-radius: 5px;
+	   -webkit-border-radius: 5px;
        border-radius: 5px;
    }
 
