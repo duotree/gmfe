@@ -1,30 +1,31 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import login from '@/components/login/login'
-import main from '@/components/main'
-import helloworld from '@/components/HelloWorld'
+import Vue from "vue";
+import Router from "vue-router";
+import login from "@/components/login/login";
+import main from "@/components/main";
+import helloworld from "@/components/HelloWorld";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  mode: "history",
   routes: [
     {
-      path: '/login',
-      name: 'login',
+      path: "/",
+      name: "login",
       component: login
-    }, {
-      path: '/gmServer',
-      name: 'main',
+    },
+    {
+      path: "/gmServer",
+      name: "main",
       components: {
         main: main
       },
-      children: [ 
+      children: [
         {
-          path: '/helloworld',
+          path: "/helloworld",
           component: helloworld
         }
       ]
     }
   ]
-})
+});
