@@ -1,5 +1,8 @@
 <template>
   <div id="main" v-bind:style="{width:width + 'px', height:height + 'px'}">
+      <div class="top">
+        this is the top 
+      </div>
       <div class="sidebar">
          <sidebar></sidebar>
       </div>
@@ -36,7 +39,10 @@ export default {
 </script>
 
 <style>
-#main {
+
+
+#main .top {
+  height:10%;
 }
 
 #main .sidebar {
