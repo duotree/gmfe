@@ -2,15 +2,18 @@
     <div id="sidebar">
         <ul>
             <li  v-for="pmenu in pmenus" class="pmenu"> 
-                {{ pmenu.title  }}
+                <a href="#" class="pa"> {{ pmenu.title  }} </a>
                 <ul >
-                    <li class="submenu" v-for = "item in pmenu.subList">{{ item.title }}</li>
+                    <li class="submenu" v-for="item in pmenu.subList">
+                        <router-link :to="'/gmServer/helloworld'" class="suba">{{ item.title }} </router-link>
+                    </li>
                 </ul>
-                <router-link :to="item"> {{item}} </router-link>
             </li>
         </ul>
     </div>
 </template>
+
+
 
 <script>
 export default {
@@ -39,19 +42,30 @@ export default {
         margin: 0;
     }
 
-    #sidebar .pmenu {
+    #sidebar ul li{
+        width: 100%;
+    }
+
+    #sidebar .pmenu .pa{
         color: #fff;
         background: #540303;
-        padding: 10px;
+        width: 100%;
+        height: 30px;
+        display: inline-block;
+        padding: 5px 0px 5px 10px;
         box-sizing: border-box;
-
     }
 
     #sidebar .submenu {
         color: #fff;
         background: #300d0d;
-        padding:10px;
+        padding: 15px;
         box-sizing: border-box;
+    }
+
+    #sidebar .submenu .suba{
+       background: #300d0d;
+       width: 100%;
 
     }
 
@@ -70,7 +84,7 @@ export default {
 
     } */
 
-    ul, ul li {
+    ul, ul li  {
         list-style: none;
         padding: 0;
         margin: 0;

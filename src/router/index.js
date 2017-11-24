@@ -22,7 +22,7 @@ export default new Router({
       },
       children: [
         {
-          path: "/helloworld",
+          path: "/gmServer/helloworld",
           component: helloworld
         }
       ]
