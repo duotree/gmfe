@@ -2,17 +2,16 @@
     <div id="sidebar">
         <ul>
             <li  v-for="pmenu in pmenus" class="pmenu"> 
-                <a href="#" class="pa"> {{ pmenu.title  }} </a>
-                <ul >
-                    <li class="submenu" v-for="item in pmenu.subList">
-                        <router-link :to="'/gmServer/helloworld'" class="suba">{{ item.title }} </router-link>
+                <a href="#" class="pa" v-on:click.stop="showorhide(pmenu.id)"> {{ pmenu.title  }} </a>
+                <ul v-bind:class="{'showMenu': choose_menu_id == pmenu.id, 'hideMenu': choose_menu_id != pmenu.id }">
+                    <li class="submenu" v-for="item in pmenu.subList" v-bind:class="{'active': choose_submenu_id == item.id}">
+                        <a href="#" class="suba" v-on:click.stop="showPage(item.id)">{{ item.title }} </a>
                     </li>
                 </ul>
             </li>
         </ul>
     </div>
 </template>
-
 
 
 <script>
@@ -32,6 +31,18 @@ export default {
                     ],title:"补偿/公告"
                 }
             ],
+            choose_menu_id:0, // 记录选中父菜单的id
+            choose_submenu_id: 0,// 选中子菜单id
+        }
+    },
+    methods:{
+        showorhide (id) {
+           this.choose_menu_id = id;
+        },
+        showPage (subid) {
+            this.choose_submenu_id = subid;
+            // 根据subid 填入对应链接地址,暂时统一写一个
+            this.$router.push('/gmServer/helloworld');
         }
     }
 }
@@ -46,9 +57,13 @@ export default {
         width: 100%;
     }
 
+    #sidebar a {
+        text-decoration: none;
+    }
+
     #sidebar .pmenu .pa{
         color: #fff;
-        background: #540303;
+        background:#300d0d;
         width: 100%;
         height: 30px;
         display: inline-block;
@@ -58,15 +73,25 @@ export default {
 
     #sidebar .submenu {
         color: #fff;
-        background: #300d0d;
-        padding: 15px;
+        background:  #540303;
+        padding: 5px 20px;
         box-sizing: border-box;
     }
 
     #sidebar .submenu .suba{
-       background: #300d0d;
-       width: 100%;
+       color: #fff;
+    }
 
+    #sidebar .active{
+        background: red;
+    }
+
+    #sidebar .hideMenu {
+        display: none;
+
+    }
+    #sidebar .showMenu {
+        display: block;
     }
 
     /* #sidebar ul {
