@@ -48,10 +48,10 @@ export default {
 }
 
 #login .bg-blur {
-    background: #eee url(../../assets/loginback.jpg) repeat fixed top;
+    background: #eee url(../../assets/img/loginback.jpg) repeat fixed top;
     float: left;
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
     -webkit-filter: blur(3px);
     -moz-filter: blur(3px);
     -o-filter: blur(3px);

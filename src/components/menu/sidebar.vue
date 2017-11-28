@@ -32,8 +32,16 @@ export default {
                 }
             ],
             choose_menu_id:0, // 记录选中父菜单的id
-            choose_submenu_id: 0,// 选中子菜单id
+            choose_submenu_id: 0, // 选中子菜单id
+            linkedMenu:{}
         }
+    },
+    mounted(){
+        this.linkedMenu[101] = '/gmServer/userlist';
+        this.linkedMenu[202] = '/gmServer/helloworld';
+
+
+
     },
     methods:{
         showorhide (id) {
@@ -42,7 +50,7 @@ export default {
         showPage (subid) {
             this.choose_submenu_id = subid;
             // 根据subid 填入对应链接地址,暂时统一写一个
-            this.$router.push('/gmServer/helloworld');
+            this.$router.push(this.linkedMenu[subid]);
         }
     }
 }

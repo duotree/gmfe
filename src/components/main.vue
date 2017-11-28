@@ -7,7 +7,6 @@
          <sidebar></sidebar>
       </div>
       <div class="content">
-          test
           <router-view></router-view>
       </div>
   </div>
@@ -52,7 +51,6 @@ export default {
 }
 
 #main .content {
-  background: yellow;
   width: 90%;
   float: left;
 }
