@@ -3,11 +3,13 @@
       <div class="top">
         this is the top 
       </div>
-      <div class="sidebar">
-         <sidebar></sidebar>
-      </div>
-      <div class="content">
-          <router-view></router-view>
+      <div class="maincontent">
+        <div class="sidebar">
+          <sidebar></sidebar>
+        </div>
+        <div class="content">
+            <router-view></router-view>
+        </div>
       </div>
   </div>
 </template>
@@ -38,21 +40,32 @@ export default {
 </script>
 
 <style>
-
+#main .maincontent{
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 15px;
+}
 
 #main .top {
   height:10%;
+  border:2px solid #ddd;
 }
 
 #main .sidebar {
-  background: green;
   width: 10%;
   float: left;
+  border: 2px solid #ddd;
+  border-top: none;
+  box-sizing: border-box;
+  height: 89%;
 }
 
 #main .content {
   width: 90%;
   float: left;
+  padding-left:20px;
+  box-sizing: border-box;
+  
 }
 </style>
 

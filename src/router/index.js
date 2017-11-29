@@ -4,6 +4,7 @@ import login from "@/components/login/login";
 import main from "@/components/main";
 import helloworld from "@/components/HelloWorld";
 import userlist from '@/components/user/userlist';
+import serverlist from '@/components/server/serverlist';
 
 Vue.use(Router);
 
@@ -29,6 +30,10 @@ export default new Router({
         {
           path: "/gmServer/userlist",
           component: userlist
+        },
+        {
+          path: "/gmServer/serverlist",
+          component: serverlist
         }
       ]
     }

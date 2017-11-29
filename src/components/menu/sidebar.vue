@@ -39,9 +39,7 @@ export default {
     mounted(){
         this.linkedMenu[101] = '/gmServer/userlist';
         this.linkedMenu[202] = '/gmServer/helloworld';
-
-
-
+        this.linkedMenu[201] = '/gmServer/serverlist';
     },
     methods:{
         showorhide (id) {
@@ -57,41 +55,46 @@ export default {
 </script>
 
 <style>
-    #sidebar {
+    /* #sidebar {
         margin: 0;
     }
 
     #sidebar ul li{
         width: 100%;
-    }
+    } */
 
     #sidebar a {
         text-decoration: none;
     }
 
     #sidebar .pmenu .pa{
-        color: #fff;
-        background:#300d0d;
+        color: #984377;
+        background: #f3f3f3;
         width: 100%;
         height: 30px;
         display: inline-block;
         padding: 5px 0px 5px 10px;
         box-sizing: border-box;
+        font-weight: bold;
     }
 
     #sidebar .submenu {
-        color: #fff;
-        background:  #540303;
+        color: #540303;
+        /* background:  #540303; */
         padding: 5px 20px;
         box-sizing: border-box;
     }
 
     #sidebar .submenu .suba{
-       color: #fff;
+       color: #540303;
+    }
+
+    #sidebar .submenu:hover {
+        background: #eee;
     }
 
     #sidebar .active{
-        background: red;
+        background: #eee;
     }
 
     #sidebar .hideMenu {
