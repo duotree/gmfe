@@ -1,16 +1,16 @@
 <template>
-  <div id="main" v-bind:style="{width:width + 'px', height:height + 'px'}">
-      <div class="top">
-        this is the top 
+  <div id="main">
+    <div class="top">
+      this is the top
+    </div>
+    <div class="maincontent">
+      <div class="sidebar">
+        <sidebar></sidebar>
       </div>
-      <div class="maincontent">
-        <div class="sidebar">
-          <sidebar></sidebar>
-        </div>
-        <div class="content">
-            <router-view></router-view>
-        </div>
+      <div class="content">
+        <router-view></router-view>
       </div>
+    </div>
   </div>
 </template>
 <script>
@@ -22,50 +22,44 @@ export default {
     sidebar
   },
   data() {
-    return {
-      width: document.documentElement.clientWidth,
-      height: document.documentElement.clientHeight
-    };
+    return {};
   },
-  mounted() {
-    window.addEventListener("resize", this.windowResize, true);
-  },
-  methods: {
-    windowResize() {
-      this.width = document.documentElement.clientWidth;
-      this.height = document.documentElement.clientHeight;
-    }
-  }
+  methods: {}
 };
 </script>
 
 <style>
-#main .maincontent{
+#main {
+  width: 100%;
+  height: 100%;
+}
+#main .top {
+  height: 100px;
+  border: 2px solid #ddd;
+  box-sizing: border-box;
+}
+
+#main .maincontent {
   width: 80%;
   margin: 0 auto;
   margin-top: 15px;
-}
-
-#main .top {
-  height:10%;
-  border:2px solid #ddd;
+  overflow: hidden;
+  height: calc(100% - 115px);
 }
 
 #main .sidebar {
-  width: 10%;
+  width: 210px;
   float: left;
-  border: 2px solid #ddd;
-  border-top: none;
+  border: 1px solid #ddd;
   box-sizing: border-box;
-  height: 89%;
+  height: calc(100% - 2px);
 }
 
 #main .content {
-  width: 90%;
-  float: left;
-  padding-left:20px;
+  padding-left: 20px;
   box-sizing: border-box;
-  
+  overflow: hidden;
+  height: calc(100% - 2px);
 }
 </style>
 
