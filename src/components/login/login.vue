@@ -1,24 +1,24 @@
 <template>
-    <div id="login" v-bind:style="{width:width + 'px', height:height + 'px'}">
-      <div class="bg-blur" >
-      </div>
-      <div class="login-content">
-          <h1>魂之轨迹GM系统</h1>
-          <router-link to="/gmServer">to main</router-link>
-          <form action="">
-              <div class="login-form-content">
-                  <input type="text" name ="username" placeholder="输入用户名"/>
-              </div>
-              <div class="login-form-content">
-                  <input type="password" name="password" placeholder="密码"/>
-              </div>
-              <div class="login-form-button">
-                  <input type="submit" name="登录">
-              </div>
-          </form>
-      </div>
+  <div id="login" v-bind:style="{width:width + 'px', height:height + 'px'}">
+    <div class="bg-blur">
     </div>
-    
+    <div class="login-content">
+      <h1>魂之轨迹GM系统</h1>
+      <router-link to="/gmServer">to main</router-link>
+      <form action="">
+        <div class="login-form-content">
+          <input type="text" name="username" placeholder="输入用户名" />
+        </div>
+        <div class="login-form-content">
+          <input type="password" name="password" placeholder="密码" />
+        </div>
+        <div class="login-form-button">
+          <input type="submit" name="登录">
+        </div>
+      </form>
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -48,15 +48,16 @@ export default {
 }
 
 #login .bg-blur {
-    background: #eee url(../../assets/img/loginback.jpg) repeat fixed top;
-    float: left;
-    width: 100%;
-    height: 100%;
-    -webkit-filter: blur(3px);
-    -moz-filter: blur(3px);
-    -o-filter: blur(3px);
-    -ms-filter: blur(3px);
-    filter: blur(3px);
+  background: #eee url(../../assets/img/loginback.jpg) repeat fixed top;
+  background-size: 100% 100%;
+  float: left;
+  width: 100%;
+  height: 100%;
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: blur(3px);
 }
 
 #login .login-content {

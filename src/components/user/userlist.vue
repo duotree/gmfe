@@ -1,40 +1,45 @@
 <template>
   <div id="userlist">
-    <table>
-      <thead>
-        <tr>
-          <th v-show="isShow"></th>
-          <th v-show="isShow">id</th>
-          <th class="thCls">用户名</th>
-          <th class="thCls">密码</th>
-          <th class="thCls">所属权限</th>
-          <th class="thCls">操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in users">
-          <td class="tdCls" v-show="isShow"> {{ user.id }} </td>
-          <td class="tdCls" :title="user.name"> {{ user.name }} </td>
-          <td class="tdCls" :title="user.password"> {{ user.password }} </td>
-          <td class="tdCls" :title="user.pri"> {{ user.pri }} </td>
-          <td class="tdCls">
-            <a href="#" v-on:click.stop="deleteUser(user.id)" title="删除"><img src="../../assets/img/delete.png" /></a>
-            <a href="#" v-on:click.stop="saveUser(user.id)" title="保存"><img src="../../assets/img/saveyes.gif" /></a>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td :colspan="colspanNum">
-          </td>
-          <td class="ftdCls">
-            <button class="buttonCls" v-on:click="showAddUser()">添加</button>
-            <button class="buttonCls" v-on:click="showModifyUser()">修改</button>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+    <div class="userlist-content">
+      <table>
+        <thead>
+          <tr>
+            <th v-show="isShow"></th>
+            <th class="thCls">用户名</th>
+            <th class="thCls">密码</th>
+            <th class="thCls">所属权限</th>
+            <th class="thCls">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in users">
+            <td class="tdCls" v-show="isShow"> {{ user.id }} </td>
+            <td class="tdCls" :title="user.name"> {{ user.name }} </td>
+            <td class="tdCls" :title="user.password"> {{ user.password }} </td>
+            <td class="tdCls" :title="user.pri"> {{ user.pri }} </td>
+            <td class="tdCls">
+              <a href="#" v-on:click.stop="deleteUser(user.id)" title="删除"><img src="../../assets/img/delete.png" /></a>
+              <a href="#" v-on:click.stop="saveUser(user.id)" title="保存"><img src="../../assets/img/saveyes.gif" /></a>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="tdCls" v-show="isShow"> </td>
+            <td :colspan="colspanNum" class="ftdCls">
+              <button class="buttonCls" v-on:click="showAddUser()">添加</button>
+              <button class="buttonCls" v-on:click="showModifyUser()">修改</button>
+            </td>
+            <!-- <td class="ftdCls">
+              <button class="buttonCls" v-on:click="showAddUser()">添加</button>
+              <button class="buttonCls" v-on:click="showModifyUser()">修改</button>
+            </td> -->
+          </tr>
+        </tfoot>
+      </table>
+    </div>
 
+    <span class="test">aaa</span>
     <div class="addUserPanel">
       <h4>{{ userTitle }}</h4>
       <form action="" method="post">
@@ -58,6 +63,7 @@
         </div>
       </form>
     </div>
+
   </div>
 </template>
 
@@ -98,9 +104,41 @@ export default {
 </script>
 
 <style>
+.test {
+  display: block;
+  background: green;
+}
+
+#userlist {
+  width: 100%;
+  height: 100%;
+}
+
+#userlist .userlist-content {
+  height: 70%;
+}
+
 #userlist table {
   border-collapse: collapse;
   width: 100%;
+  height: 100%;
+}
+
+#userlist table thead {
+  height: 17px;
+}
+
+#userlist tbody {
+  display: block;
+  height: calc(100% - 54px);
+  overflow-y: auto;
+}
+
+table thead,
+tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 
 #userlist .tdCls {
@@ -115,7 +153,7 @@ export default {
 }
 
 #userlist .ftdCls {
-  text-align: center;
+  text-align: right;
 }
 
 #userlist .buttonCls {

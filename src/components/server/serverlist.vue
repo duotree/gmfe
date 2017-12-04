@@ -46,9 +46,7 @@
         </tbody>
         <tfoot v-show="showButton">
           <tr>
-            <td :colspan="colspanNum">
-            </td>
-            <td class="ftdCls">
+            <td :colspan="colspanNum" class="ftdCls">
               <button class="buttonCls" v-on:click="showAddServer()">添加 </button>
               <button class="buttonCls" v-on:click="showmodifyServer()">修改 </button>
               <button class="buttonCls" v-on:click="deleteServer()">删除</button>
@@ -156,7 +154,7 @@ export default {
         }
       ],
       showHeadRadio: false, // 是否展现列选择框
-      colspanNum: 9, // 需要合并的列数
+      colspanNum: 10, // 需要合并的列数
       showButton: true, // 是否显示增删改操作按钮
       isShowSearchArea: true, // 是否展现查询框区域
       isShowOpeArea: false //是否展现全局操作按钮
@@ -176,6 +174,14 @@ export default {
 </script>
  
 <style>
+#serverlist {
+  height: 100%;
+}
+
+#serverlist .searchArea {
+  height: 10%;
+}
+
 #serverlist .searchArea fieldset {
   border: 1px solid #ddd;
 }
@@ -204,14 +210,35 @@ export default {
   height: 30px;
   line-height: 30px;
 }
-
+#serverlist .operateArea {
+  height: 10%;
+}
 #serverlist .serverlist-content {
   margin-top: 20px;
+  height: 70%;
 }
 
 #serverlist table {
   border-collapse: collapse;
   width: 100%;
+  height: 100%;
+}
+
+#serverlist table thead {
+  height: 17px;
+}
+
+table thead,
+tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+#serverlist tbody {
+  display: block;
+  height: calc(100% - 54px);
+  overflow-y: auto;
 }
 
 #serverlist .thCls {
@@ -225,11 +252,12 @@ export default {
 }
 
 #serverlist .ftdCls {
-  text-align: center;
+  text-align: right;
 }
 
 #serverlist .buttonCls {
   padding: 5px 10px;
   margin-top: 10px;
+  height: 27px;
 }
 </style>
