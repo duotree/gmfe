@@ -19,7 +19,6 @@
             <td class="tdCls" :title="user.pri"> {{ user.pri }} </td>
             <td class="tdCls">
               <a href="#" v-on:click.stop="deleteUser(user.id)" title="删除"><img src="../../assets/img/delete.png" /></a>
-              <a href="#" v-on:click.stop="saveUser(user.id)" title="保存"><img src="../../assets/img/saveyes.gif" /></a>
             </td>
           </tr>
         </tbody>
@@ -39,8 +38,7 @@
       </table>
     </div>
 
-    <span class="test">aaa</span>
-    <div class="addUserPanel">
+    <div class="addUserPanel" v-show="showUserPanel">
       <h4>{{ userTitle }}</h4>
       <form action="" method="post">
         <div>
@@ -58,7 +56,7 @@
           </select>
         </div>
         <div class="btngroup">
-          <button class="buttonCls">添加</button>
+          <button class="buttonCls" @on:click="addUser">添加</button>
           <button class="buttonCls">修改</button>
         </div>
       </form>
@@ -86,7 +84,8 @@ export default {
       ],
       pris: ["root", "admin", "client"],
       colspanNum: 3, // 需要合并的列数
-      userTitle: "添加用户" // 弹出框标题
+      userTitle: "添加用户", // 弹出框标题
+      showUserPanel: false
     };
   },
   methods: {
@@ -97,18 +96,15 @@ export default {
       alert("save: " + userid);
     },
     showAddUser() {
-      alert("show add user panel ");
-    }
+      this.showUserPanel = true;
+      this.$bus.$emit("modal", true);
+    },
+    addUser() {}
   }
 };
 </script>
 
 <style>
-.test {
-  display: block;
-  background: green;
-}
-
 #userlist {
   width: 100%;
   height: 100%;
@@ -169,14 +165,19 @@ tbody tr {
 
 #userlist .addUserPanel {
   width: 500px;
-  /* height: 200px; */
   border: 1px solid #eee;
+  position: absolute;
+  z-index: 999;
+  top: 30%;
+  left: 35%;
+  background: #fff;
 }
 
 #userlist .addUserPanel h4 {
   margin: 0;
   padding: 5px;
   color: #984377;
+  display: inline-block;
 }
 
 #userlist .addUserPanel input,

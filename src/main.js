@@ -5,7 +5,8 @@ import App from "./App";
 import router from "./router";
 
 Vue.config.productionTip = false;
-
+const bus = new Vue();
+Vue.prototype.$bus = bus;
 new Vue({
   el: "#app",
   router,
