@@ -4,6 +4,7 @@
       <table>
         <thead>
           <tr>
+            <th class="thCls" v-show="showTableRadio"><input type="radio" name="headradio" v-show="showHeader()" /></th>
             <th v-show="isShow"></th>
             <th class="thCls">用户名</th>
             <th class="thCls">密码</th>
@@ -13,10 +14,11 @@
         </thead>
         <tbody>
           <tr v-for="user in users">
+            <td class="tdCls" v-show="showTableRadio"><input type="radio" name="headradio" :value="user.id" v-on:click.stop="getUser(user)" /></td>
             <td class="tdCls" v-show="isShow"> {{ user.id }} </td>
             <td class="tdCls" :title="user.name"> {{ user.name }} </td>
             <td class="tdCls" :title="user.password"> {{ user.password }} </td>
-            <td class="tdCls" :title="user.pri"> {{ user.pri }} </td>
+            <td class="tdCls" :title="user.pri"> {{ transPri(user.pri) }}</td>
             <td class="tdCls">
               <a href="#" v-on:click.stop="deleteUser(user.id)" title="删除"><img src="../../assets/img/delete.png" /></a>
             </td>
@@ -40,24 +42,27 @@
 
     <div class="addUserPanel" v-show="showUserPanel">
       <h4>{{ userTitle }}</h4>
-      <form action="" method="post">
+      <span class="close-icon">
+        <i class="fa fa-times" aria-hidden="true" @click="closeAddUserPanel"></i>
+      </span>
+      <form @submit.prevent="submitData">
         <div>
           <label>用户名：</label>
-          <input type="text" name="name" placeholder="用户名" />
+          <input type="text" v-model="user.name" placeholder="用户名" />
         </div>
         <div>
           <label>密码：</label>
-          <input type="password" name="password" placeholder="密码" />
+          <input type="password" v-model="user.password" placeholder="密码" />
         </div>
         <div>
           <label>所属权限： </label>
-          <select name="pri">
-            <option v-for="pri in pris" value="pri"> {{ pri }}</option>
+          <select v-model="user.pri">
+            <option v-for="pri in pris" :value="pri.id"> {{ pri.name }}</option>
           </select>
         </div>
         <div class="btngroup">
-          <button class="buttonCls" @on:click="addUser">添加</button>
-          <button class="buttonCls">修改</button>
+          <button class="buttonCls" v-show="!showModifyBtn">添加</button>
+          <button class="buttonCls" v-show="showModifyBtn">修改</button>
         </div>
       </form>
     </div>
@@ -70,7 +75,7 @@ export default {
   name: "userlist",
   data() {
     return {
-      isShow: false,
+      isShow: false, //是否显示用户id
       users: [
         { id: 1, name: "root", password: "root", pri: 1 },
         { id: 2, name: "manager", password: "manager", pri: 2 },
@@ -82,10 +87,23 @@ export default {
         { id: 14, name: "12ab", password: "12#$", pri: 1 },
         { id: 15, name: "test1", password: "test", pri: 3 }
       ],
-      pris: ["root", "admin", "client"],
+      pris: [
+        { id: 1, name: "root权限" },
+        { id: 2, name: "管理员权限" },
+        { id: 3, name: "client权限" }
+      ],
       colspanNum: 3, // 需要合并的列数
       userTitle: "添加用户", // 弹出框标题
-      showUserPanel: false
+      showUserPanel: false, // 弹出框
+      user: {
+        id: 0,
+        name: "",
+        password: "",
+        pri: 1
+      },
+      showModifyBtn: false, //展现用户修改确认按钮
+      showHeadRadio: false, // 是否展现列选择框
+      showTableRadio: true // 是否展现列选择框
     };
   },
   methods: {
@@ -96,10 +114,49 @@ export default {
       alert("save: " + userid);
     },
     showAddUser() {
+      this.user = {};
+      this.showUserPanel = true;
+      this.$bus.$emit("modal", true); // 弹出窗体的时候显示遮罩层
+    },
+    showModifyUser() {
+      this.userTitle = "修改用户";
+      this.showModifyBtn = true;
       this.showUserPanel = true;
       this.$bus.$emit("modal", true);
     },
-    addUser() {}
+    submitData() {
+      if (!this.showModifyBtn === true) {
+        this.users.push(this.user);
+      }
+      this.showUserPanel = false; //关闭弹出框
+      this.$bus.$emit("modal", false); // 关闭弹出窗体遮罩层
+    },
+    addUser() {
+      alert("add");
+    },
+    modifyUser() {
+      alert("modify");
+    },
+    closeAddUserPanel() {
+      this.showUserPanel = false;
+      this.$bus.$emit("modal", false); // 关闭窗体的时候隐藏遮罩层
+    },
+    transPri(pri) {
+      let len = this.pris.length;
+      for (let i = 0; i < len; i++) {
+        let item = this.pris[i];
+        if (item.id === pri) {
+          return item.name;
+        }
+      }
+    },
+    showHeader() {
+      console.log("&操作: ", this.showHeadRadio && this.showTableRadio);
+      return this.showHeadRadio && this.showTableRadio;
+    },
+    getUser(user) {
+      this.user = user;
+    }
   }
 };
 </script>
@@ -178,6 +235,16 @@ tbody tr {
   padding: 5px;
   color: #984377;
   display: inline-block;
+}
+
+#userlist .close-icon {
+  margin-right: 20px;
+  margin-top: 5px;
+  float: right;
+}
+
+#userlist .close-icon i {
+  color: #984377;
 }
 
 #userlist .addUserPanel input,

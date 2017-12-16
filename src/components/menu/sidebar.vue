@@ -1,16 +1,16 @@
 <template>
-    <div id="sidebar">
-        <ul>
-            <li v-for="pmenu in pmenus" class="pmenu">
-                <a href="#" class="pa" v-on:click.stop="showorhide(pmenu.id)"> {{ pmenu.title }} </a>
-                <ul v-bind:class="{'showMenu': choose_menu_id == pmenu.id, 'hideMenu': choose_menu_id != pmenu.id }">
-                    <li class="submenu" v-for="item in pmenu.subList" v-bind:class="{'active': choose_submenu_id == item.id}">
-                        <a href="#" class="suba" v-on:click.stop="showPage(item.id)">{{ item.title }} </a>
-                    </li>
-                </ul>
-            </li>
+  <div id="sidebar">
+    <ul>
+      <li v-for="pmenu in pmenus" class="pmenu">
+        <a href="#" class="pa" v-on:click.stop="showorhide(pmenu.id)"> {{ pmenu.title }} </a>
+        <ul v-bind:class="{'showMenu': choose_menu_id == pmenu.id, 'hideMenu': choose_menu_id != pmenu.id }">
+          <li class="submenu" v-for="item in pmenu.subList" v-bind:class="{'active': choose_submenu_id == item.id}">
+            <a href="#" class="suba" v-on:click.stop="showPage(item.id)">{{ item.title }} </a>
+          </li>
         </ul>
-    </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 
@@ -47,6 +47,7 @@ export default {
     this.linkedMenu[101] = "/gmServer/userlist";
     this.linkedMenu[202] = "/gmServer/helloworld";
     this.linkedMenu[201] = "/gmServer/serverlist";
+    // this.linkedMenu[101] = "/gmServer/test";
   },
   methods: {
     showorhide(id) {

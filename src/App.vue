@@ -61,10 +61,10 @@ body {
   position: absolute;
   background: #eee;
   z-index: 2;
-  -webkit-filter: blur(2px);
-  -moz-filter: blur(2px);
-  -o-filter: blur(2px);
-  -ms-filter: blur(2px);
-  filter: blur(2px);
+  filter: alpha(Opacity=50); /*IE8 以及更早的版本支持替代的 filter 属性 */
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
 }
 </style>

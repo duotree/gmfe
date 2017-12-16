@@ -37,6 +37,8 @@ export default {
   height: 100px;
   border: 2px solid #ddd;
   box-sizing: border-box;
+  background: #eee url(../assets/img/loginback.jpg) repeat fixed top;
+  background-size: 100% 50%;
 }
 
 #main .maincontent {
