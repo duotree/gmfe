@@ -31,7 +31,9 @@ export default {
 html,
 body,
 div,
-h1 {
+h1,
+ul,
+li {
   margin: 0;
   padding: 0;
 }

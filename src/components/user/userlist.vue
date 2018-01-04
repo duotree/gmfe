@@ -31,10 +31,6 @@
               <button class="buttonCls" v-on:click="showAddUser()">添加</button>
               <button class="buttonCls" v-on:click="showModifyUser()">修改</button>
             </td>
-            <!-- <td class="ftdCls">
-              <button class="buttonCls" v-on:click="showAddUser()">添加</button>
-              <button class="buttonCls" v-on:click="showModifyUser()">修改</button>
-            </td> -->
           </tr>
         </tfoot>
       </table>
@@ -114,6 +110,8 @@ export default {
       alert("save: " + userid);
     },
     showAddUser() {
+      this.userTitle = "添加用户";
+      this.showModifyBtn = false;
       this.user = {};
       this.showUserPanel = true;
       this.$bus.$emit("modal", true); // 弹出窗体的时候显示遮罩层
@@ -123,6 +121,7 @@ export default {
       this.showModifyBtn = true;
       this.showUserPanel = true;
       this.$bus.$emit("modal", true);
+      //todo  获取选中用户数据
     },
     submitData() {
       if (!this.showModifyBtn === true) {
@@ -130,12 +129,6 @@ export default {
       }
       this.showUserPanel = false; //关闭弹出框
       this.$bus.$emit("modal", false); // 关闭弹出窗体遮罩层
-    },
-    addUser() {
-      alert("add");
-    },
-    modifyUser() {
-      alert("modify");
     },
     closeAddUserPanel() {
       this.showUserPanel = false;
@@ -194,6 +187,24 @@ tbody tr {
   table-layout: fixed;
 }
 
+#userlist tbody::-webkit-scrollbar {
+  width: 10px;
+}
+
+/*滚动条背景*/
+#userlist tbody::-webkit-scrollbar-track {
+  background: none;
+}
+
+/*滚动条颜色*/
+#userlist tbody::-webkit-scrollbar-thumb {
+  background-color: #984377;
+}
+
+/*滚动条颜色*/
+#userlist tbody::-webkit-scrollbar-thumb:hover {
+  background-color: #cd6889;
+}
 #userlist .tdCls {
   border-bottom: 1px dotted #ddd;
   padding: 10px;

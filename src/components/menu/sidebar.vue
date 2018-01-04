@@ -45,9 +45,9 @@ export default {
   },
   mounted() {
     this.linkedMenu[101] = "/gmServer/userlist";
-    this.linkedMenu[202] = "/gmServer/helloworld";
     this.linkedMenu[201] = "/gmServer/serverlist";
-    // this.linkedMenu[101] = "/gmServer/test";
+    this.linkedMenu[202] = "/gmServer/helloworld";
+    this.linkedMenu[203] = "/gmServer/roleinfo";
   },
   methods: {
     showorhide(id) {

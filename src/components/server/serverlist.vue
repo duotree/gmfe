@@ -4,8 +4,8 @@
       <fieldset>
         <legend>服务器查询</legend>
         <label>服务器ID:</label>
-        <input type="text" placeholder="服务器ID" />
-        <button class="searchBtn">查询</button>
+        <input type="text" placeholder="服务器ID" v-model="serverid" />
+        <button class="searchBtn" v-on:click="findServerById()">查询</button>
       </fieldset>
     </div>
     <div class="operateArea" v-show="isShowOpeArea">
@@ -32,7 +32,7 @@
         </thead>
         <tbody>
           <tr v-for="server in serverlist">
-            <td class="tdCls"><input type="radio" name="headradio" v-show="showTableRadio" value="server.id" /></td>
+            <td class="tdCls"><input type="radio" name="headradio" v-show="showTableRadio" value="server.id" v-on:click="selectServer(server)" /></td>
             <td class="tdCls" :title="server.id"> {{ server.id }} </td>
             <td class="tdCls" :title="server.regionName"> {{ server.regionName }} </td>
             <td class="tdCls" :title="server.displayName"> {{ server.displayName }} </td>
@@ -207,8 +207,9 @@ export default {
       colspanNum: 10, // 需要合并的列数
       showButton: true, // 是否显示增删改操作按钮
       isShowSearchArea: true, // 是否展现查询框区域
-      isShowOpeArea: false, //是否展现全局操作按钮
+      isShowOpeArea: true, //是否展现全局操作按钮
       server: {},
+      serverid: null,
       svrStatusList: [],
       memStatusList: [],
       showModifyBtn: false,
@@ -217,31 +218,43 @@ export default {
     };
   },
   methods: {
-    deleteServer(serverid) {},
-    saveServer(serverid) {},
+    deleteServer() {
+      let serverid = this.server.id;
+    },
     showAddServer() {
       this.$bus.$emit("modal", true);
       this.showServerPanel = true;
     },
-    showmodifyServer(serverid) {},
+    showmodifyServer() {
+      this.serverPanelTitle = "修改服务器";
+      this.showModifyBtn = true;
+      this.showServerPanel = true;
+      this.$bus.emit("modal", true);
+    },
     findServerById(serverid) {},
     modifyAdVersion() {},
     modifyIosVersion() {},
     manageQA() {},
-    addServer() {},
     submitData() {
-      if (!this.showModifyBtn && this.server != null) {
+      if (!this.showModifyBtn && !this.isNull(this.server)) {
         this.serverlist.push(this.server);
         this.$bus.$emit("modal", false);
         this.showServerPanel = false;
       }
-      console.log("this.server == null", this.server == null);
-      if (this.server == null) {
+      if (this.isNull(this.server)) {
         alert("输入数据不能为空");
       }
     },
     closeUserPanel() {
       this.showServerPanel = false;
+      this.$bus.$emit("modal", false);
+    },
+    isNull(obj) {
+      let keys = Object.keys(obj);
+      return keys.length == 0;
+    },
+    selectServer(server) {
+      this.server = server;
     }
   }
 };
@@ -284,9 +297,11 @@ export default {
   height: 30px;
   line-height: 30px;
 }
+
 #serverlist .operateArea {
   height: 10%;
 }
+
 #serverlist .serverlist-content {
   margin-top: 20px;
   height: 70%;
@@ -311,7 +326,7 @@ tbody tr {
 
 #serverlist tbody {
   display: block;
-  height: calc(100% - 54px);
+  height: calc(100% - 37px); /*todo */
   overflow-y: auto;
 }
 
@@ -340,7 +355,6 @@ tbody tr {
 
 #serverlist .tdCls {
   border-bottom: 1px dotted #ddd;
-  padding: 10px;
   text-align: center;
 }
 
