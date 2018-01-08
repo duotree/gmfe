@@ -1,5 +1,5 @@
 <template>
-  <div id="rightmenu" :class="'rightMenu' + menuData.menuName" v-show="showRightMenu">
+  <div id="rightmenu" :class="'rightMenu' + menuData.menuName" display="none">
     <ul>
       <li v-for="(menu,index) in menuData.menuList">
         <a @click.stop="handler(menu)">{{ menu.name }}</a>
@@ -29,18 +29,40 @@ export default {
       }
     }
   },
+  mounted() {
+    let rightmenu = document.getElementById("rightmenu");
+    rightmenu.addEventListener("click", this.hideRightMenu);
+    rightmenu.addEventListener("mouseleave", this.onmouseleave);
+    rightmenu.addEventListener("mouseover", this.onmouseover);
+  },
   methods: {
     handler(menu) {
+      this.isShowMenu = false;
       this.$emit(menu.fnHandler);
+    },
+    hideRightMenu() {
+      let rightmenu = document.getElementById("rightmenu");
+      rightmenu.style.display = "none";
+    },
+    onmouseleave(event) {
+      let rightmenu = document.getElementById("rightmenu");
+      rightmenu.style.display = "none";
+    },
+    onmouseover() {
+      let rightmenu = document.getElementById("rightmenu");
+      rightmenu.style.display = "block";
     }
   },
   watch: {
-    // 修改axion值时 没有触发此处
-    "menuData.axions"(val) {
-      var className = "rightMenu" + this.menuData.menuName;
-      var menus = document.getElementsByClassName(className);
-      console.log("menu", menu);
-      console.log("val:", val);
+    "menuData.axios"(val) {
+      let rightmenu = document.getElementById("rightmenu");
+      rightmenu.style.left = val.x + "px";
+      rightmenu.style.top = val.y + "px";
+      rightmenu.style.display = "block";
+      this.menuData.axios = val;
+    },
+    showRightMenu(val) {
+      this.isShowMenu = val;
     }
   }
 };
@@ -50,6 +72,8 @@ export default {
 #rightmenu {
   width: 100px;
   text-align: center;
+  position: absolute;
+  background: #fff;
 }
 #rightmenu ul {
   border: 1px solid #984377;

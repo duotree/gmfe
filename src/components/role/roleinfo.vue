@@ -48,7 +48,34 @@
         </tbody>
       </table>
     </div>
-    <rightmenu :menuData="menuData" :showRightMenu="showRightMenu" @modifyRoleInfo="modifyRole" @slincedRoleInfo="slincedRoleInfo" @unslincedRoleInfo="unslincedRoleInfo"></rightmenu>
+    <rightmenu :menuData="menuData" v-show="showRightMenu" @modifyRoleInfo="modifyRole" @slincedRoleInfo="slincedRoleInfo" @unslincedRoleInfo="unslincedRoleInfo"></rightmenu>
+    <div v-show="showRoleInfoPanel" class="roleInfoPanel">
+      <!-- 弹出的添加修改 角色信息 窗口 -->
+      <div>
+        <label>角色名称</label>
+        <input type="text" v-model="selectRole.roleName" placeholder="输入角色名称" />
+      </div>
+      <div>
+        <label>账号</label>
+        <input type="text" v-model="selectRole.userId" placeholder="输入角色账号" />
+      </div>
+      <div>
+        <label>角色类型</label>
+        <input type="text" v-model="selectRole.roleType" placeholder="输入角色类型" />
+      </div>
+      <div>
+        <label>vip等级</label>
+        <input type="text" v-model="selectRole.vip" placeholder="输入vip等级" />
+      </div>
+      <div>
+        <label>角色等级</label>
+        <input type="text" v-model="selectRole.level" placeholder="输入角色等级" />
+      </div>
+      <div>
+        <label>充值rmb</label>
+        <input type="text" v-model="selectRole.rmb" placeholder="输入充值数" />
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -91,7 +118,8 @@ export default {
             fnHandler: "unslincedRoleInfo" // 菜单项执行函数
           }
         ]
-      }
+      },
+      selectRole: {} //记录右键选中的数据
     };
   },
   methods: {
@@ -103,8 +131,10 @@ export default {
       var y = event.clientY;
       this.showRightMenu = true;
       this.menuData.axios = { x, y };
+      this.selectRole = role;
     },
     modifyRole() {
+      console.log(this.selectRole);
       alert("modify role info");
     },
     slincedRoleInfo() {
@@ -214,7 +244,7 @@ export default {
   padding: 10px 0px;
 }
 
-/* 右键菜单 */
+/* 右键菜单
 #roleInfo .rightmenu {
   width: 100px;
   background: #fff;
@@ -231,6 +261,7 @@ export default {
   border-bottom: 1px dotted #ddd;
   padding: 5px 0px;
 }
+ */
 </style>
 
 

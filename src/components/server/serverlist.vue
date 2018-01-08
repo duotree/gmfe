@@ -392,6 +392,7 @@ tbody tr {
   float: right;
   margin-right: 5px;
   margin-top: 5px;
+  cursor: pointer;
 }
 
 #serverlist .serverPanel div {
