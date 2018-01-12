@@ -50,19 +50,35 @@ export default {
     },
     onmouseover() {
       let rightmenu = document.getElementById("rightmenu");
+
       rightmenu.style.display = "block";
     }
   },
   watch: {
+    // todo: 有滚动条的时候 位置不对
     "menuData.axios"(val) {
       let rightmenu = document.getElementById("rightmenu");
       rightmenu.style.left = val.x + "px";
       rightmenu.style.top = val.y + "px";
+      let realHeight = rightmenu.offsetHeight;
+      let body = document.body || window.body;
+      let windowHeight = body.clientHeight;
+      console.log(val);
+      console.log(
+        "windowHeight: " +
+          windowHeight +
+          " realHeight: " +
+          realHeight +
+          " this.menuData.axios.y: " +
+          this.menuData.axios.y
+      );
+      if (windowHeight < this.menuData.axios.y + realHeight) {
+        alert(1);
+        this.menuData.axios.y = this.menuData.axios.y + realHeight;
+      }
       rightmenu.style.display = "block";
-      this.menuData.axios = val;
-    },
-    showRightMenu(val) {
-      this.isShowMenu = val;
+      console.log(this.menuData.axios);
+      // this.menuData.axios = val;
     }
   }
 };

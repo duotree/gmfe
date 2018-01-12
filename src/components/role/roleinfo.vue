@@ -10,15 +10,19 @@
       <fieldset v-show="!searchRoleSimple">
         <legend>角色信息查询</legend>
         <label for="">查询数据类型:</label>
-        <select name="searchType">
+        <select v-model="searchType">
           <option value="1">角色信息查询</option>
           <option value="2">角色信息查询(按名称)</option>
           <option value="3">角色封停查询</option>
           <option value="4">禁言查询</option>
           <option value="5">根据aid查询角色</option>
         </select>
-        <label for="">角色Id:</label>
-        <input type="text" name="roleid" v-model="roleid" palceholder="输入角色Id" />
+        <label for="" v-if="searchType != 2 && searchType != 5">角色Id:</label>
+        <label for="" v-if="searchType == 2">角色名称:</label>
+        <label for="" v-if="searchType == 5">角色AID:</label>
+        <input type="text" name="roleid" v-model="roleid" palceholder="输入角色Id" v-if="searchType != 2 && searchType != 5" />
+        <input type="text" name="rolename" v-model="rolename" palceholder="输入角色名称" v-if="searchType == 2" />
+        <input type="text" name="roleaid" v-model="roleaid" palceholder="输入角色AID" v-if="searchType == 5" />
         <button class="btn" @click="searchRoleInfo()">查询</button>
       </fieldset>
     </div>
@@ -48,32 +52,69 @@
         </tbody>
       </table>
     </div>
-    <rightmenu :menuData="menuData" v-show="showRightMenu" @modifyRoleInfo="modifyRole" @slincedRoleInfo="slincedRoleInfo" @unslincedRoleInfo="unslincedRoleInfo"></rightmenu>
-    <div v-show="showRoleInfoPanel" class="roleInfoPanel">
-      <!-- 弹出的添加修改 角色信息 窗口 -->
+    <rightmenu :menuData="menuData" v-show="showRightMenu" @modifyRoleInfo="showModifyRoleInfo" @slincedRoleInfo="showSlincedRoleInfo" @unslincedRoleInfo="showUnslincedRoleInfo"></rightmenu>
+    <!-- 玩家禁言 解禁言 -->
+    <div v-show="showSlincedRoleInfoPanel" class="roleInfoPanel">
+      <div class="head">
+        <h4>{{ roleInfoPanelTitle }}</h4>
+        <span class="close-icon">
+          <i class="fa fa-times" aria-hidden="true" @click="closeRolePanel"></i>
+        </span>
+      </div>
+      <div>
+        <label>角色ID</label>
+        <input type="text" v-model="selectRole.roleId" placeholder="角色id" readonly/>
+      </div>
       <div>
         <label>角色名称</label>
-        <input type="text" v-model="selectRole.roleName" placeholder="输入角色名称" />
+        <input type="text" v-model="selectRole.roleName" placeholder="输入角色名称" readonly/>
+      </div>
+      <div v-show="showSlincedTime">
+        <label>禁言时间</label>
+        <input type="text" v-model="selectRole.slincedTime" placeholder="输入禁言时间，单位为分钟" />
+      </div>
+      <div>
+        <label>剩余禁言时间</label>
+        <input type="text" v-model="lastSlincedTime" readonly/>
+      </div>
+
+      <div class="btngroup">
+        <button class="buttonCls" @click="slincedRoleInfo">禁言</button>
+        <button class="buttonCls" @click="closeRolePanel">取消</button>
+      </div>
+    </div>
+    <!-- 修改玩家信息 -->
+    <div v-show="showRoleInfoPanel" class="roleInfoPanel">
+      <div class="head">
+        <h4>{{ roleInfoPanelTitle }}</h4>
+        <span class="close-icon">
+          <i class="fa fa-times" aria-hidden="true" @click="closeRolePanel"></i>
+        </span>
+      </div>
+      <div>
+        <label>角色ID</label>
+        <input type="text" v-model="selectRole.roleId" placeholder="角色id" readonly/>
+      </div>
+      <div>
+        <label>角色名称</label>
+        <input type="text" v-model="selectRole.roleName" placeholder="输入角色名称" readonly/>
       </div>
       <div>
         <label>账号</label>
-        <input type="text" v-model="selectRole.userId" placeholder="输入角色账号" />
+        <input type="text" v-model="selectRole.userId" placeholder="输入账号" />
       </div>
       <div>
         <label>角色类型</label>
-        <input type="text" v-model="selectRole.roleType" placeholder="输入角色类型" />
-      </div>
-      <div>
-        <label>vip等级</label>
-        <input type="text" v-model="selectRole.vip" placeholder="输入vip等级" />
+        <input type="text" v-model="selectRole.roleType" />
       </div>
       <div>
         <label>角色等级</label>
-        <input type="text" v-model="selectRole.level" placeholder="输入角色等级" />
+        <input type="text" v-model="selectRole.level" />
       </div>
-      <div>
-        <label>充值rmb</label>
-        <input type="text" v-model="selectRole.rmb" placeholder="输入充值数" />
+
+      <div class="btngroup">
+        <button class="buttonCls" @click="modifyRoleInfo">修改</button>
+        <button class="buttonCls" @click="closeRolePanel">取消</button>
       </div>
     </div>
   </div>
@@ -85,10 +126,15 @@ export default {
   components: {
     rightmenu
   },
+  props: {
+    searchRoleSimple: false,
+    showRightMenu: false
+  },
   data() {
     return {
-      searchRoleSimple: false,
       roleid: null,
+      rolename: null,
+      roleaid: null,
       rolelist: [
         {
           level: 60,
@@ -100,7 +146,7 @@ export default {
           vip: 0
         }
       ],
-      showRightMenu: false,
+
       menuData: {
         menuName: "roleInfoRightMenu",
         axios: { x: null, y: null }, //菜单位置
@@ -119,7 +165,13 @@ export default {
           }
         ]
       },
-      selectRole: {} //记录右键选中的数据
+      selectRole: {}, //记录右键选中的数据
+      showRoleInfoPanel: false, // 显示玩家数据
+      showSlincedRoleInfoPanel: false, //显示禁言玩家信息
+      searchType: null, //下拉框选择值
+      roleInfoPanelTitle: "添加角色信息", //弹出窗标题
+      showSlincedTime: false, //显示禁言时间
+      lastSlincedTime: 0 // 剩余禁言时间
     };
   },
   methods: {
@@ -133,15 +185,88 @@ export default {
       this.menuData.axios = { x, y };
       this.selectRole = role;
     },
-    modifyRole() {
-      console.log(this.selectRole);
-      alert("modify role info");
+    showModifyRoleInfo() {
+      this.roleInfoPanelTitle = "修改玩家信息";
+      this.showRoleInfoPanel = true;
+      this.showSlincedRoleInfoPanel = false;
+      this.$bus.$emit("modal", true);
+    },
+    showSlincedRoleInfo() {
+      this.roleInfoPanelTitle = "玩家禁言";
+      this.showSlincedRoleInfoPanel = true;
+      this.showRoleInfoPanel = false;
+      this.showSlincedTime = true;
+      this.$bus.$emit("modal", true);
+    },
+    showUnslincedRoleInfo() {
+      this.roleInfoPanelTitle = "玩家解禁言";
+      this.showSlincedRoleInfoPanel = true;
+      this.showRoleInfoPanel = false;
+      this.showSlincedTime = false;
+      this.$bus.$emit("modal", true);
+    },
+    closeRolePanel() {
+      this.showRoleInfoPanel = false;
+      this.showSlincedRoleInfoPanel = false;
+      this.$bus.$emit("modal", false);
+    },
+    modifyRoleInfo() {
+      alert("modify role info ");
+      this.$bus.$emit("modal", false);
     },
     slincedRoleInfo() {
-      alert("slinced role info");
+      var request = this.createCORSRequest(
+        "get",
+        "http://localhost:8080/GMServer"
+      );
+      if (request) {
+        request.onload = function() {
+          //对request.responseText进行处理
+          console.log("request: ", request);
+        };
+        request.send(null);
+      }
+      // this.$http
+      //   .jsonp("http://localhost:8080/GMServer/errorInfoController.do", {
+      //     params: {
+      //       starttime: "2018-01-08",
+      //       endtime: "2018-01-09"
+      //     },
+      //     responseType: "json",
+      //     jsonp: "_callback",
+      //     method: "post"
+      //   })
+      //   .then(
+      //     response => {
+      //       console.log("success: ", response);
+      //       let data = response.data;
+      //       let result = data.result;
+      //       console.log("succ result: ", result);
+      //     },
+      //     response => {
+      //       console.log("error: ", response);
+      //     }
+      //   );
+      this.$bus.$emit("modal", false);
     },
+    createCORSRequest(method, url) {
+      var xhr = new XMLHttpRequest();
+      // xhr.Origin = "http://localhost:9999/gmServer";
+      if ("withCredentials" in xhr) {
+        // xhr.withCredentials = true;
+        xhr.open(method, url, true);
+      } else if (typeof XDomainRequest != undefined) {
+        xhr = new XDomainRequest();
+        xhr.open(method, url);
+      } else {
+        xhr = null;
+      }
+      return xhr;
+    },
+
     unslincedRoleInfo() {
       alert("unslinced role info");
+      this.$bus.$emit("modal", false);
     }
   }
 };
@@ -153,7 +278,8 @@ export default {
 }
 
 #roleInfo .searchArea {
-  height: 15%;
+  height: 10%;
+  position: relative;
 }
 
 #roleInfo .searchArea fieldset {
@@ -189,8 +315,8 @@ export default {
   cursor: pointer;
 }
 
-#roleInfo .searchArea .rolelist-content {
-  height: 85%;
+#roleInfo .rolelist-content {
+  /* height: 85%; */
   position: relative;
 }
 
@@ -244,24 +370,74 @@ export default {
   padding: 10px 0px;
 }
 
-/* 右键菜单
-#roleInfo .rightmenu {
-  width: 100px;
-  background: #fff;
+#roleInfo .roleInfoPanel {
   position: absolute;
-}
-
-#roleInfo .rightmenu ul {
+  z-index: 999;
+  top: 30%;
+  left: 40%;
+  background: #fff;
+  width: 350px;
+  height: 260px;
+  border-radius: 5px;
   border: 1px solid #ddd;
-  text-align: center;
 }
 
-#roleInfo .rightmenu ul li {
-  list-style: none;
-  border-bottom: 1px dotted #ddd;
-  padding: 5px 0px;
+#roleInfo .roleInfoPanel .head {
+  margin-bottom: 10px;
 }
- */
+
+#roleInfo .roleInfoPanel h4 {
+  color: #984377;
+  display: inline-block;
+  margin: 5px 5px 0px 0px;
+}
+
+#roleInfo .roleInfoPanel .close-icon {
+  display: inline-block;
+  cursor: pointer;
+  float: right;
+  margin: 5px 5px 0px 0px;
+  color: #984377;
+}
+
+#roleInfo .roleInfoPanel div {
+  overflow: hidden;
+  margin: 5px 0px 5px 5px;
+}
+
+#roleInfo .roleInfoPanel div label {
+  display: inline-block;
+  width: 80px;
+  text-align: right;
+  margin-right: 2px;
+}
+
+#roleInfo .roleInfoPanel input {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  outline: none;
+  width: 170px;
+  border-radius: 5px;
+  padding-left: 2px;
+  border: 1px solid #ddd;
+}
+
+#roleInfo .roleInfoPanel .btngroup {
+  text-align: center;
+  margin-top: 10px;
+}
+
+#roleInfo .roleInfoPanel .btngroup .buttonCls {
+  background: #984377;
+  outline: none;
+  border: none;
+  height: 30px;
+  line-height: 30px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 2px 10px;
+}
 </style>
 
 

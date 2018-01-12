@@ -6,7 +6,8 @@ import helloworld from "@/components/HelloWorld";
 import userlist from "@/components/user/userlist";
 import serverlist from "@/components/server/serverlist";
 import test from "@/components/test";
-import roleinfo from "@/components/role/roleinfo.vue";
+import roleinfo from "@/components/role/roleinfo";
+import roledata from "@/components/playerdata/roledata";
 
 Vue.use(Router);
 
@@ -44,6 +45,10 @@ export default new Router({
         {
           path: "/gmServer/roleinfo",
           component: roleinfo
+        },
+        {
+          path: "/gmServer/roledata",
+          component: roledata
         }
       ]
     }

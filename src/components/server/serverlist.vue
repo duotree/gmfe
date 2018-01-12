@@ -1,6 +1,6 @@
 <template>
   <div id="serverlist">
-    <div class="searchArea" v-show="isShowSearchArea">
+    <div class="searchArea" v-show="showSearchArea">
       <fieldset>
         <legend>服务器查询</legend>
         <label>服务器ID:</label>
@@ -8,7 +8,7 @@
         <button class="searchBtn" v-on:click="findServerById()">查询</button>
       </fieldset>
     </div>
-    <div class="operateArea" v-show="isShowOpeArea">
+    <div class="operateArea" v-show="showOpeArea">
       <button class="buttonCls" v-on:click="modifyAdVersion()">修改版本号</button>
       <button class="buttonCls" v-on:click="modifyIosVersion()">修改ios版本号</button>
       <button class="buttonCls" v-on:click="manageQA()">管理QA账号</button>
@@ -110,6 +110,13 @@
 <script>
 export default {
   name: "serverlist",
+  props: {
+    showHeadRadio: false, // 是否展现列选择框
+    showTableRadio: true, // 是否展现列选择框
+    showButton: true, // 是否显示增删改操作按钮
+    showSearchArea: true, // 是否展现查询框区域
+    showOpeArea: true //是否展现全局操作按钮
+  },
   data() {
     return {
       serverlist: [
@@ -202,12 +209,8 @@ export default {
           svrStatus: 0
         }
       ],
-      showHeadRadio: false, // 是否展现列选择框
-      showTableRadio: true, // 是否展现列选择框
+
       colspanNum: 10, // 需要合并的列数
-      showButton: true, // 是否显示增删改操作按钮
-      isShowSearchArea: true, // 是否展现查询框区域
-      isShowOpeArea: true, //是否展现全局操作按钮
       server: {},
       serverid: null,
       svrStatusList: [],
