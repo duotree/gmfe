@@ -1,5 +1,6 @@
 <template>
   <div id="roleInfo">
+    <h3>角色列表</h3>
     <div class="searchArea">
       <fieldset v-show="searchRoleSimple">
         <legend>角色信息查询</legend>
@@ -181,7 +182,12 @@ export default {
       event.preventDefault(); // 阻止默认右键菜单
       var x = event.clientX;
       var y = event.clientY;
-      this.showRightMenu = true;
+      // this.showRightMenu = true;
+
+      let height = this.getViewPortHeight();
+      if (height - y <= 100) {
+        y = y - 30;
+      }
       this.menuData.axios = { x, y };
       this.selectRole = role;
     },
@@ -211,21 +217,24 @@ export default {
       this.$bus.$emit("modal", false);
     },
     modifyRoleInfo() {
-      alert("modify role info ");
+      this.$bus.$emit("roleinfo:modifyroleinfo", this.selectRole);
       this.$bus.$emit("modal", false);
     },
     slincedRoleInfo() {
-      var request = this.createCORSRequest(
-        "get",
-        "http://localhost:8080/GMServer"
-      );
-      if (request) {
-        request.onload = function() {
-          //对request.responseText进行处理
-          console.log("request: ", request);
-        };
-        request.send(null);
-      }
+      this.$bus.$emit("roleinfo:slincedroleinfo", this.selectRole);
+      this.showSlincedRoleInfoPanel = false;
+      // var request = this.createCORSRequest(
+      //   "get",
+      //   "http://localhost:8080/GMServer"
+      // );
+      // if (request) {
+      //   request.onload = function() {
+      //     //对request.responseText进行处理
+      //     console.log("request: ", request);
+      //   };
+      //   request.send(null);
+      // }
+
       // this.$http
       //   .jsonp("http://localhost:8080/GMServer/errorInfoController.do", {
       //     params: {
@@ -267,6 +276,13 @@ export default {
     unslincedRoleInfo() {
       alert("unslinced role info");
       this.$bus.$emit("modal", false);
+    },
+    getViewPortHeight() {
+      if (document.compatMode == "BackCompat") {
+        return document.body.clientHeight;
+      } else {
+        return document.documentElement.clientHeight;
+      }
     }
   }
 };
@@ -277,8 +293,15 @@ export default {
   height: 100%;
 }
 
+#roleInfo h3 {
+  color: #984377;
+  margin: 0;
+  padding: 10px 5px;
+  background: #ddd;
+}
+
 #roleInfo .searchArea {
-  height: 10%;
+  /* height: 10%; */
   position: relative;
 }
 
@@ -318,6 +341,7 @@ export default {
 #roleInfo .rolelist-content {
   /* height: 85%; */
   position: relative;
+  margin-top: 15px;
 }
 
 #roleInfo .rolelist-content table {
@@ -377,7 +401,7 @@ export default {
   left: 40%;
   background: #fff;
   width: 350px;
-  height: 260px;
+  height: 280px;
   border-radius: 5px;
   border: 1px solid #ddd;
 }

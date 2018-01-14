@@ -45,7 +45,7 @@ export default {
   },
   mounted() {
     this.linkedMenu[101] = "/gmServer/userlist";
-    this.linkedMenu[201] = "/gmServer/serverlist";
+    this.linkedMenu[201] = "/gmServer/serverlistpanel";
     this.linkedMenu[202] = "/gmServer/helloworld";
     this.linkedMenu[203] = "/gmServer/roleinfo";
     this.linkedMenu[204] = "/gmServer/roledata";

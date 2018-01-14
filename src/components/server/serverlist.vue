@@ -1,5 +1,6 @@
 <template>
   <div id="serverlist">
+    <h3>服务器列表</h3>
     <div class="searchArea" v-show="showSearchArea">
       <fieldset>
         <legend>服务器查询</legend>
@@ -212,7 +213,7 @@ export default {
 
       colspanNum: 10, // 需要合并的列数
       server: {},
-      serverid: null,
+      serverid: null, //查询条件
       svrStatusList: [],
       memStatusList: [],
       showModifyBtn: false,
@@ -258,6 +259,7 @@ export default {
     },
     selectServer(server) {
       this.server = server;
+      this.$bus.$emit("serverlist:getServer", server);
     }
   }
 };
@@ -268,8 +270,16 @@ export default {
   height: 100%;
 }
 
+#serverlist h3 {
+  color: #984377;
+  margin: 0;
+  padding: 10px 5px;
+  background: #ddd;
+}
+
 #serverlist .searchArea {
   height: 10%;
+  min-height: 55px;
 }
 
 #serverlist .searchArea fieldset {
@@ -306,8 +316,8 @@ export default {
 }
 
 #serverlist .serverlist-content {
-  margin-top: 20px;
-  height: 70%;
+  margin: 20px 0;
+  height: 60%;
 }
 
 #serverlist table {
@@ -316,7 +326,7 @@ export default {
   height: 100%;
 }
 
-#serverlist table thead {
+table thead {
   height: 17px;
 }
 

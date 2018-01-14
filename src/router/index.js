@@ -8,6 +8,7 @@ import serverlist from "@/components/server/serverlist";
 import test from "@/components/test";
 import roleinfo from "@/components/role/roleinfo";
 import roledata from "@/components/playerdata/roledata";
+import serverlistpanel from "@/components/server/serverlistpanel";
 
 Vue.use(Router);
 
@@ -37,6 +38,10 @@ export default new Router({
         {
           path: "/gmServer/serverlist",
           component: serverlist
+        },
+        {
+          path: "/gmServer/serverlistpanel",
+          component: serverlistpanel
         },
         {
           path: "/gmServer/test",
