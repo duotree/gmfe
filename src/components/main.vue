@@ -1,7 +1,12 @@
 <template>
   <div id="main">
     <div class="top">
-      this is the top
+      <header>魂之轨迹GM管理系统</header>
+      <div class="userinfo">
+        <span>当前用户：</span>
+        <span>{{ username }}</span>
+        <a href="/login">注销</a>
+      </div>
     </div>
     <div class="maincontent">
       <div class="sidebar">
@@ -22,7 +27,9 @@ export default {
     sidebar
   },
   data() {
-    return {};
+    return {
+      username: "test"
+    };
   },
   methods: {}
 };
@@ -34,17 +41,32 @@ export default {
   height: 100%;
 }
 #main .top {
-  height: 100px;
-  border: 2px solid #ddd;
+  border-bottom: 2px solid #ddd;
   box-sizing: border-box;
-  background: #eee url(../assets/img/loginback.jpg) repeat fixed top;
-  background-size: 100% 50%;
+  background: #1e7dd7;
+  color: #fff;
+  overflow: hidden;
+  padding: 25px 30px;
+}
+
+#main .top header {
+  float: left;
+  font-weight: 700;
+  font-size: 18px;
+}
+#main .top .userinfo {
+  float: right;
+  font-size: 14px;
+}
+#main .top .userinfo a {
+  text-decoration: none;
+  color: #fff;
+  margin-left: 10px;
 }
 
 #main .maincontent {
   width: 80%;
-  margin: 0 auto;
-  margin-top: 15px;
+  margin: 0px auto;
   overflow: hidden;
   height: calc(100% - 115px);
 }
@@ -62,6 +84,7 @@ export default {
   box-sizing: border-box;
   overflow: hidden;
   height: calc(100% - 2px);
+  margin-top: 15px;
 }
 </style>
 

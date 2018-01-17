@@ -28,14 +28,31 @@ export default {
         {
           id: 2,
           subList: [
-            { id: 201, title: "\u53D1\u9001\u90AE\u4EF6" },
-            { id: 202, title: "\u53D1\u9001\u5168\u5C40\u90AE\u4EF6" },
-            { id: 203, title: "\u90AE\u4EF6\u67E5\u8BE2" },
-            { id: 204, title: "\u516C\u544A\u63A8\u9001" },
-            { id: 205, title: "\u9ED1\u767D\u540D\u5355" },
-            { id: 206, title: "\u6E38\u620F\u516C\u544A" }
+            { id: 201, title: "发送邮件" },
+            // { id: 202, title: "发送全局邮件" },
+            { id: 203, title: "邮件查询" },
+            { id: 204, title: "公告推送" },
+            { id: 205, title: "黑白名单" },
+            { id: 206, title: "游戏公告" }
           ],
           title: "补偿/公告"
+        },
+        {
+          id: 3,
+          subList: [
+            { id: 301, title: "服务器信息" },
+            { id: 302, title: "全局数据" },
+            { id: 303, title: "登录服务器数据" }
+          ],
+          title: "服务器数据"
+        },
+        {
+          id: 4,
+          subList: [
+            { id: 401, title: "角色基本信息" },
+            { id: 402, title: "角色数据" }
+          ],
+          title: "玩家数据"
         }
       ],
       choose_menu_id: 0, // 记录选中父菜单的id
@@ -45,10 +62,14 @@ export default {
   },
   mounted() {
     this.linkedMenu[101] = "/gmServer/userlist";
-    this.linkedMenu[201] = "/gmServer/serverlistpanel";
-    this.linkedMenu[202] = "/gmServer/helloworld";
-    this.linkedMenu[203] = "/gmServer/roleinfo";
-    this.linkedMenu[204] = "/gmServer/roledata";
+    this.linkedMenu[201] = "/gmServer/login";
+    this.linkedMenu[203] = "/gmServer/login";
+    this.linkedMenu[204] = "/gmServer/login";
+    this.linkedMenu[205] = "/gmServer/login";
+    this.linkedMenu[206] = "/gmServer/login";
+    this.linkedMenu[301] = "/gmServer/serverlistpanel";
+    this.linkedMenu[401] = "/gmServer/rolebasicinfo";
+    this.linkedMenu[402] = "/gmServer/roledata";
   },
   methods: {
     showorhide(id) {
@@ -73,8 +94,9 @@ export default {
 }
 
 #sidebar .pmenu .pa {
-  color: #984377;
-  background: #f3f3f3;
+  color: #fff;
+  background-color: #1e7dd7;
+  border-color: rgba(32, 160, 255, 0.2);
   width: 100%;
   height: 30px;
   display: inline-block;
@@ -84,22 +106,24 @@ export default {
 }
 
 #sidebar .submenu {
-  color: #540303;
+  color: #20a0ff;
   /* background:  #540303; */
   padding: 5px 20px;
   box-sizing: border-box;
 }
 
 #sidebar .submenu .suba {
-  color: #540303;
+  color: #20a0ff;
 }
 
 #sidebar .submenu:hover {
-  background: #eee;
+  background-color: rgba(32, 160, 255, 0.1);
+  border-color: rgba(32, 160, 255, 0.2);
 }
 
 #sidebar .active {
-  background: #eee;
+  background-color: rgba(32, 160, 255, 0.1);
+  border-color: rgba(32, 160, 255, 0.2);
 }
 
 #sidebar .hideMenu {
@@ -131,6 +155,3 @@ ul li {
   margin: 0;
 }
 </style>
-
-
-

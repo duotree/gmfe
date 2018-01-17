@@ -1,13 +1,10 @@
 <template>
   <div id="serverlist">
-    <h3>服务器列表</h3>
+    <h3 v-show="showServListTitle">服务器列表</h3>
     <div class="searchArea" v-show="showSearchArea">
-      <fieldset>
-        <legend>服务器查询</legend>
-        <label>服务器ID:</label>
-        <input type="text" placeholder="服务器ID" v-model="serverid" />
-        <button class="searchBtn" v-on:click="findServerById()">查询</button>
-      </fieldset>
+      <label>服务器ID:</label>
+      <input type="text" placeholder="服务器ID" v-model="serverid" />
+      <button class="searchBtn" v-on:click="findServerById()">查询</button>
     </div>
     <div class="operateArea" v-show="showOpeArea">
       <button class="buttonCls" v-on:click="modifyAdVersion()">修改版本号</button>
@@ -19,7 +16,7 @@
       <table>
         <thead>
           <tr>
-            <th class="thCls"><input type="radio" name="headradio" v-show="showHeadRadio" /></th>
+            <th class="thRadioCls"><input type="radio" name="headradio" v-show="showHeadRadio" /></th>
             <th class="thCls">服务器ID</th>
             <th class="thCls">大区名字</th>
             <th class="thCls">服务器名称</th>
@@ -33,7 +30,7 @@
         </thead>
         <tbody>
           <tr v-for="server in serverlist">
-            <td class="tdCls"><input type="radio" name="headradio" v-show="showTableRadio" value="server.id" v-on:click="selectServer(server)" /></td>
+            <td class="tdRadioCls"><input type="radio" name="headradio" v-show="showTableRadio" value="server.id" v-on:click="selectServer(server)" /></td>
             <td class="tdCls" :title="server.id"> {{ server.id }} </td>
             <td class="tdCls" :title="server.regionName"> {{ server.regionName }} </td>
             <td class="tdCls" :title="server.displayName"> {{ server.displayName }} </td>
@@ -116,7 +113,8 @@ export default {
     showTableRadio: true, // 是否展现列选择框
     showButton: true, // 是否显示增删改操作按钮
     showSearchArea: true, // 是否展现查询框区域
-    showOpeArea: true //是否展现全局操作按钮
+    showOpeArea: true, //是否展现全局操作按钮
+    showServListTitle: false // 是否展现列表标题
   },
   data() {
     return {
@@ -271,15 +269,14 @@ export default {
 }
 
 #serverlist h3 {
-  color: #984377;
-  margin: 0;
+  background-color: rgba(32, 160, 255, 0.1);
+  border-color: rgba(32, 160, 255, 0.2);
+  color: #20a0ff;
   padding: 10px 5px;
-  background: #ddd;
 }
 
 #serverlist .searchArea {
-  height: 10%;
-  min-height: 55px;
+  margin-top: 20px;
 }
 
 #serverlist .searchArea fieldset {
@@ -289,14 +286,14 @@ export default {
 #serverlist .searchArea input {
   height: 30px;
   line-height: 30px;
-  width: 240px;
+  width: 300px;
   box-sizing: border-box;
   padding-left: 10px;
   border: 1px solid #ddd;
 }
 
 #serverlist button {
-  background: #984377;
+  background: #f7ba2a;
   color: #fff;
   outline: none;
   border: none;
@@ -305,14 +302,14 @@ export default {
   border-radius: 5px;
 }
 
+#serverlist button:hover {
+  background: #f3c14d;
+}
+
 #serverlist .searchBtn {
   padding: 0px 20px;
   height: 30px;
   line-height: 30px;
-}
-
-#serverlist .operateArea {
-  height: 10%;
 }
 
 #serverlist .serverlist-content {
@@ -324,10 +321,6 @@ export default {
   border-collapse: collapse;
   width: 100%;
   height: 100%;
-}
-
-table thead {
-  height: 17px;
 }
 
 table thead,
@@ -354,16 +347,29 @@ tbody tr {
 
 /*滚动条颜色*/
 #serverlist tbody::-webkit-scrollbar-thumb {
-  background-color: #984377;
+  background-color: #f3f3f3;
 }
 
 /*滚动条颜色*/
 #serverlist tbody::-webkit-scrollbar-thumb:hover {
-  background-color: #cd6889;
+  background-color: #ddd;
+}
+
+#serverlist .thRadioCls {
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+  width: 10px;
 }
 
 #serverlist .thCls {
   border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+#serverlist .tdRadioCls {
+  border-bottom: 1px dotted #ddd;
+  text-align: center;
+  width: 10px;
 }
 
 #serverlist .tdCls {
@@ -394,14 +400,14 @@ tbody tr {
 
 #serverlist .serverPanel h4 {
   display: inline-block;
-  color: #984377;
+  color: #1e7dd7;
   margin-top: 5px;
   margin-left: 5px;
 }
 
 #serverlist .serverPanel .close-icon {
   display: inline-block;
-  color: #984377;
+  color: #1e7dd7;
   float: right;
   margin-right: 5px;
   margin-top: 5px;
@@ -435,5 +441,13 @@ tbody tr {
 #serverlist .serverPanel .btngroup {
   width: 100%;
   text-align: center;
+}
+
+#serverlist .serverPanel .buttonCls {
+  background: #1e7dd7;
+}
+
+#serverlist .serverPanel .buttonCls:hover {
+  background: #20a0ff;
 }
 </style>

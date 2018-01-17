@@ -1,7 +1,7 @@
 <template>
   <div id="rightmenu" :class="'rightMenu' + menuData.menuName" display="none">
     <ul>
-      <li v-for="(menu,index) in menuData.menuList">
+      <li v-for="(menu,index) in menuData.menuList" v-show="menu.show">
         <a @click.stop="handler(menu)">{{ menu.name }}</a>
       </li>
     </ul>
@@ -22,7 +22,8 @@ export default {
           menuList: [
             {
               name: "", // 菜单项名称
-              fnHandler: "" // 菜单项执行函数
+              fnHandler: "", // 菜单项执行函数
+              show: "" //是否显示
             }
           ]
         };
@@ -63,21 +64,11 @@ export default {
       let realHeight = rightmenu.offsetHeight;
       let body = document.body || window.body;
       let windowHeight = body.clientHeight;
-      console.log(val);
-      console.log(
-        "windowHeight: " +
-          windowHeight +
-          " realHeight: " +
-          realHeight +
-          " this.menuData.axios.y: " +
-          this.menuData.axios.y
-      );
       if (windowHeight < this.menuData.axios.y + realHeight) {
         alert(1);
         this.menuData.axios.y = this.menuData.axios.y + realHeight;
       }
       rightmenu.style.display = "block";
-      console.log(this.menuData.axios);
       // this.menuData.axios = val;
     }
   }
@@ -92,11 +83,11 @@ export default {
   background: #fff;
 }
 #rightmenu ul {
-  border: 1px solid #984377;
+  border: 1px solid #1e7dd7;
 }
 #rightmenu ul li {
   list-style: none;
-  border-bottom: 1px dotted #984377;
+  border-bottom: 1px dotted #1e7dd7;
 }
 
 #rightmenu li a {
@@ -104,5 +95,3 @@ export default {
   cursor: pointer;
 }
 </style>
-
-

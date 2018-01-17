@@ -2,14 +2,14 @@
   <div id="roleInfo">
     <h3>角色列表</h3>
     <div class="searchArea">
-      <fieldset v-show="searchRoleSimple">
-        <legend>角色信息查询</legend>
+      <div v-show="searchRoleSimple" class="searchArea-content">
+        <!-- <legend>角色信息查询</legend> -->
         <label>角色ID:</label>
         <input type="text" name="roleid" v-model="roleid" placeholder="输入角色Id" />
         <button class="btn">查询角色信息</button>
-      </fieldset>
-      <fieldset v-show="!searchRoleSimple">
-        <legend>角色信息查询</legend>
+      </div>
+      <div v-show="!searchRoleSimple" class="searchArea-content">
+        <!-- <legend>角色信息查询</legend> -->
         <label for="">查询数据类型:</label>
         <select v-model="searchType">
           <option value="1">角色信息查询</option>
@@ -25,7 +25,7 @@
         <input type="text" name="rolename" v-model="rolename" palceholder="输入角色名称" v-if="searchType == 2" />
         <input type="text" name="roleaid" v-model="roleaid" palceholder="输入角色AID" v-if="searchType == 5" />
         <button class="btn" @click="searchRoleInfo()">查询</button>
-      </fieldset>
+      </div>
     </div>
     <div class="rolelist-content">
       <table>
@@ -53,7 +53,8 @@
         </tbody>
       </table>
     </div>
-    <rightmenu :menuData="menuData" v-show="showRightMenu" @modifyRoleInfo="showModifyRoleInfo" @slincedRoleInfo="showSlincedRoleInfo" @unslincedRoleInfo="showUnslincedRoleInfo"></rightmenu>
+    <rightmenu :menuData="menuData" v-show="showRightMenu" @modifyRoleInfo="showModifyRoleInfo" @slincedRoleInfo="showSlincedRoleInfo" @unslincedRoleInfo="showUnslincedRoleInfo"
+    @operateRoleSubject="showOperateRoleSubjectPanel"></rightmenu>
     <!-- 玩家禁言 解禁言 -->
     <div v-show="showSlincedRoleInfoPanel" class="roleInfoPanel">
       <div class="head">
@@ -118,6 +119,7 @@
         <button class="buttonCls" @click="closeRolePanel">取消</button>
       </div>
     </div>
+    
   </div>
 </template>
 <script>
@@ -154,15 +156,23 @@ export default {
         menuList: [
           {
             name: "修改玩家信息", // 菜单项名称
-            fnHandler: "modifyRoleInfo" // 菜单项执行函数
+            fnHandler: "modifyRoleInfo", // 菜单项执行函数
+            show: true
           },
           {
             name: "玩家禁言", // 菜单项名称
-            fnHandler: "slincedRoleInfo" // 菜单项执行函数
+            fnHandler: "slincedRoleInfo", // 菜单项执行函数
+            show: true
           },
           {
             name: "玩家解禁言", // 菜单项名称
-            fnHandler: "unslincedRoleInfo" // 菜单项执行函数
+            fnHandler: "unslincedRoleInfo", // 菜单项执行函数
+            show: true //是否显示
+          },
+          {
+            name: "玩家物品操作", // 菜单项名称
+            fnHandler: "operateRoleSubject", // 菜单项执行函数
+            show: true //是否显示
           }
         ]
       },
@@ -172,7 +182,8 @@ export default {
       searchType: null, //下拉框选择值
       roleInfoPanelTitle: "添加角色信息", //弹出窗标题
       showSlincedTime: false, //显示禁言时间
-      lastSlincedTime: 0 // 剩余禁言时间
+      lastSlincedTime: 0, // 剩余禁言时间
+      showOperateRoleSubjectPanel: false
     };
   },
   methods: {
@@ -235,27 +246,6 @@ export default {
       //   request.send(null);
       // }
 
-      // this.$http
-      //   .jsonp("http://localhost:8080/GMServer/errorInfoController.do", {
-      //     params: {
-      //       starttime: "2018-01-08",
-      //       endtime: "2018-01-09"
-      //     },
-      //     responseType: "json",
-      //     jsonp: "_callback",
-      //     method: "post"
-      //   })
-      //   .then(
-      //     response => {
-      //       console.log("success: ", response);
-      //       let data = response.data;
-      //       let result = data.result;
-      //       console.log("succ result: ", result);
-      //     },
-      //     response => {
-      //       console.log("error: ", response);
-      //     }
-      //   );
       this.$bus.$emit("modal", false);
     },
     createCORSRequest(method, url) {
@@ -283,7 +273,9 @@ export default {
       } else {
         return document.documentElement.clientHeight;
       }
-    }
+    },
+    showOperateRoleSubjectPanel() {},
+    operateRoleSubject() {}
   }
 };
 </script>
@@ -294,19 +286,17 @@ export default {
 }
 
 #roleInfo h3 {
-  color: #984377;
-  margin: 0;
+  background-color: rgba(32, 160, 255, 0.1);
+  border-color: rgba(32, 160, 255, 0.2);
+  color: #20a0ff;
   padding: 10px 5px;
-  background: #ddd;
 }
 
 #roleInfo .searchArea {
-  /* height: 10%; */
   position: relative;
 }
-
-#roleInfo .searchArea fieldset {
-  border: 1px solid #eee;
+#roleInfo .searchArea .searchArea-content {
+  margin-top: 20px;
 }
 
 #roleInfo .searchArea select {
@@ -327,19 +317,24 @@ export default {
 }
 
 #roleInfo .searchArea .btn {
-  background: #984377;
+  background: #f7ba2a;
   color: #fff;
   font-weight: bold;
   outline: none;
   border: none;
-  padding: 5px 10px;
+  padding: 0px 20px;
   border-radius: 5px;
   margin-left: 10px;
   cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+}
+
+#roleInfo .searchArea .btn:hover {
+  background: #f3c14d;
 }
 
 #roleInfo .rolelist-content {
-  /* height: 85%; */
   position: relative;
   margin-top: 15px;
 }
@@ -348,9 +343,6 @@ export default {
   border-collapse: collapse;
   width: 100%;
   height: 100%;
-}
-#roleInfo .rolelist-content thead {
-  height: 17px;
 }
 
 #roleInfo table thead,
@@ -376,16 +368,17 @@ export default {
 
 /*滚动条颜色*/
 #roleInfo tbody::-webkit-scrollbar-thumb {
-  background-color: #984377;
+  background-color: #f3f3f3;
 }
 
 /*滚动条颜色*/
 #roleInfo tbody::-webkit-scrollbar-thumb:hover {
-  background-color: #cd6889;
+  background-color: #ddd;
 }
 
 #roleInfo .thcls {
   border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
 }
 
 #roleInfo .tdcls {
@@ -411,7 +404,7 @@ export default {
 }
 
 #roleInfo .roleInfoPanel h4 {
-  color: #984377;
+  color: #1e7dd7;
   display: inline-block;
   margin: 5px 5px 0px 0px;
 }
@@ -421,7 +414,7 @@ export default {
   cursor: pointer;
   float: right;
   margin: 5px 5px 0px 0px;
-  color: #984377;
+  color: #1e7dd7;
 }
 
 #roleInfo .roleInfoPanel div {
@@ -453,7 +446,7 @@ export default {
 }
 
 #roleInfo .roleInfoPanel .btngroup .buttonCls {
-  background: #984377;
+  background: #1e7dd7;
   outline: none;
   border: none;
   height: 30px;
@@ -462,6 +455,8 @@ export default {
   border-radius: 5px;
   padding: 2px 10px;
 }
+
+#roleInfo .roleInfoPanel .btngroup .buttonCls:hover {
+  background: #20a0ff;
+}
 </style>
-
-

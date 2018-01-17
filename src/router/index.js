@@ -8,6 +8,7 @@ import serverlist from "@/components/server/serverlist";
 import test from "@/components/test";
 import roleinfo from "@/components/role/roleinfo";
 import roledata from "@/components/playerdata/roledata";
+import rolebasicinfo from "@/components/playerdata/rolebasicinfo";
 import serverlistpanel from "@/components/server/serverlistpanel";
 
 Vue.use(Router);
@@ -16,7 +17,7 @@ export default new Router({
   mode: "history",
   routes: [
     {
-      path: "/",
+      path: "/login",
       name: "login",
       component: login
     },
@@ -54,6 +55,10 @@ export default new Router({
         {
           path: "/gmServer/roledata",
           component: roledata
+        },
+        {
+          path: "/gmServer/rolebasicinfo",
+          component: rolebasicinfo
         }
       ]
     }

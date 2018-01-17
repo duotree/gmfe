@@ -60,5 +60,3 @@ export default {
   margin-top: 25px;
 }
 </style>
-
-

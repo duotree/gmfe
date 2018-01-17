@@ -4,7 +4,7 @@
       <table>
         <thead>
           <tr>
-            <th class="thCls" v-show="showTableRadio"><input type="radio" name="headradio" v-show="showHeader()" /></th>
+            <th class="thRadioCls" v-show="showTableRadio"><input type="radio" name="headradio" v-show="showHeader()" /></th>
             <th v-show="isShow"></th>
             <th class="thCls">用户名</th>
             <th class="thCls">密码</th>
@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <tr v-for="user in users">
-            <td class="tdCls" v-show="showTableRadio"><input type="radio" name="headradio" :value="user.id" v-on:click.stop="getUser(user)" /></td>
+            <td class="tdRadioCls" v-show="showTableRadio"><input type="radio" name="headradio" :value="user.id" v-on:click.stop="getUser(user)" /></td>
             <td class="tdCls" v-show="isShow"> {{ user.id }} </td>
             <td class="tdCls" :title="user.name"> {{ user.name }} </td>
             <td class="tdCls" :title="user.password"> {{ user.password }} </td>
@@ -57,8 +57,8 @@
           </select>
         </div>
         <div class="btngroup">
-          <button class="buttonCls" v-show="!showModifyBtn">添加</button>
-          <button class="buttonCls" v-show="showModifyBtn">修改</button>
+          <button class="buttonCls btngroup-color-blue" v-show="!showModifyBtn">添加</button>
+          <button class="buttonCls btngroup-color-blue" v-show="showModifyBtn">修改</button>
         </div>
       </form>
     </div>
@@ -170,10 +170,6 @@ export default {
   height: 100%;
 }
 
-#userlist table thead {
-  height: 17px;
-}
-
 #userlist tbody {
   display: block;
   height: calc(100% - 54px);
@@ -198,12 +194,12 @@ tbody tr {
 
 /*滚动条颜色*/
 #userlist tbody::-webkit-scrollbar-thumb {
-  background-color: #984377;
+  background-color: #f3f3f3;
 }
 
 /*滚动条颜色*/
 #userlist tbody::-webkit-scrollbar-thumb:hover {
-  background-color: #cd6889;
+  background-color: #ddd;
 }
 #userlist .tdCls {
   border-bottom: 1px dotted #ddd;
@@ -212,8 +208,21 @@ tbody tr {
   /* word-wrap: break-word; */
 }
 
+#userlist .tdRadioCls {
+  border-bottom: 1px dotted #ddd;
+  text-align: center;
+  width: 10px;
+}
+
 #userlist .thCls {
   border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+#userlist .thRadioCls {
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+  width: 10px;
 }
 
 #userlist .ftdCls {
@@ -223,7 +232,7 @@ tbody tr {
 #userlist .buttonCls {
   margin-top: 5px;
   padding: 5px 10px;
-  background: #984377;
+  background: #f7ba2a;
   color: #fff;
   border: none;
   outline: none; /* outline （轮廓）是绘制于元素周围的一条线,不会占据空间，也不一定是矩形 */
@@ -231,6 +240,13 @@ tbody tr {
   border-radius: 5px;
 }
 
+#userlist .btngroup-color-blue {
+  background: #1e7dd7;
+}
+
+#userlist .btngroup-color-blue:hover {
+  background: #20a0ff;
+}
 #userlist .addUserPanel {
   width: 500px;
   border: 1px solid #eee;
@@ -244,7 +260,7 @@ tbody tr {
 #userlist .addUserPanel h4 {
   margin: 0;
   padding: 5px;
-  color: #984377;
+  color: #1e7dd7;
   display: inline-block;
 }
 
@@ -255,7 +271,7 @@ tbody tr {
 }
 
 #userlist .close-icon i {
-  color: #984377;
+  color: #1e7dd7;
 }
 
 #userlist .addUserPanel input,

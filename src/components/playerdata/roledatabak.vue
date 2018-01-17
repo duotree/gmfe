@@ -1,12 +1,12 @@
 <template>
-  <div id="roledata">
-    <div class="serverinfo">
-      <serverinfo :showSearchArea="true" :showOpeArea="false" :showTableRadio="true" :showServListTitle="true"></serverinfo>
+    <div id="roledata">
+        <div class="serverinfo">
+            <serverinfo :showSearchArea="true" :showOpeArea="false" :showTableRadio="true" :showServListTitle="true"></serverinfo>
+        </div>
+        <div class="roleinfo">
+            <roleinfo></roleinfo>
+        </div>
     </div>
-    <div class="roleinfo">
-      <roleinfo></roleinfo>
-    </div>
-  </div>
 </template>
 <script>
 import roleinfo from "../role/roleinfo";
